@@ -1,0 +1,21 @@
+name: tweet
+
+on:
+  push:
+
+jobs:
+  tweet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - run: curl -sSL https://install.python-poetry.org | python -
+      - run: export PATH="$PATH:$HOME/.poetry/bin"
+      - uses: actions/cache@v2
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+      - run: poetry config virtualenvs.in-project true && poetry install
+      - run: poetry run python src/tweet.py
