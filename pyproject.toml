@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "soken"
+version = "0.1.0"
+description = ""
+authors = ["watagori <kotaro.nishigori@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+tweepy = "^4.12.0"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^2.17.0"
+pytest = "^7.0.1"
+pyright = "^1.1.227"
+black = "^22.1.0"
+isort = "^5.10.1"
+flake8 = "^5.0.4"
+pytest-cov = "^4.0.0"
+pytest-mock = "^3.10.0"
+
+[tool.isort]
+profile = "black"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
