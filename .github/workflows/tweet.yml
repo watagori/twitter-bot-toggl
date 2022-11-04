@@ -3,15 +3,17 @@ name: tweet
 on:
   push:
 env:
-  TWITTER_CONSUMER_KEY: ${{ secrets.API_KEY }}
-  TWITTER_CONSUMER_SECRET: ${{ secrets.API_KEY_SECRET }}
-  TWITTER_ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-  TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
+  CONSUMER_KEY: ${{ secrets.API_KEY }}
+  CONSUMER_SECRET: ${{ secrets.API_KEY_SECRET }}
+  ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+  ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
 jobs:
   tweet:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - run: |
+          echo "ths is env=${{ env.env_1 }}"
       - uses: actions/setup-python@v4
         with:
           python-version: "3.10"
