@@ -25,11 +25,16 @@ def toggl_message():
     return item_time
 
 
-client = tweepy.Client(
-    consumer_key=consumer_key,
-    consumer_secret=consumer_secret,
-    access_token=access_token,
-    access_token_secret=access_token_secret,
-)
+def tweet():
+    client = tweepy.Client(
+        consumer_key=consumer_key,
+        consumer_secret=consumer_secret,
+        access_token=access_token,
+        access_token_secret=access_token_secret,
+    )
 
-client.create_tweet(text=toggl_message())
+    client.create_tweet(text=str(toggl_message()))
+
+
+if __name__ == "__main__":
+    tweet()
