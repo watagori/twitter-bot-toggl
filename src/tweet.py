@@ -32,4 +32,4 @@ client = tweepy.Client(
     access_token_secret=access_token_secret,
 )
 
-client.create_tweet(text="test")
+client.create_tweet(text=toggl_message())
