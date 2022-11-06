@@ -43,7 +43,7 @@ def get_yesterday():
 
 def create_tweet_message():
     toggl_message = get_toggl_message()
-    tweet_message = f"Today({get_today()})'s Activities:\n"
+    tweet_message = f"{get_yesterday()} Activities:\n"
     for key, value in toggl_message.items():
         tweet_message += f"{key} {value}\n"
     tweet_message += "#WatagoriActivity"
