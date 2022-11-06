@@ -5,16 +5,17 @@ import tweepy
 
 from toggl import Toggl
 
-consumer_key = os.environ.get("API_KEY")
-consumer_secret = os.environ.get("API_KEY_SECRET")
-access_token = os.environ.get("ACCESS_TOKEN")
-access_token_secret = os.environ.get("ACCESS_TOKEN_SECRET")
-toggl_api = os.environ.get("TOGGL_API")
+CONSUMER_KEY = os.environ.get("API_KEY")
+CONSUMER_SECRET = os.environ.get("API_KEY_SECRET")
+ACCESS_TOKEN = os.environ.get("ACCESS_TOKEN")
+ACCESS_TOKEN_SECRET = os.environ.get("ACCESS_TOKEN_SECRET")
+TOGGL_API = os.environ.get("TOGGL_API")
 
 
 def get_toggl_message():
     item_time = {}
-    toggl = Toggl(toggl_api)
+    print(f"TOGGL_API: {TOGGL_API}")
+    toggl = Toggl(TOGGL_API)
     workspace_id = toggl.get_workspace_id()
     projects_id = toggl.get_projects_id(workspace_id[0])
     today = get_today()
@@ -51,10 +52,10 @@ def create_tweet_message():
 
 def tweet():
     client = tweepy.Client(
-        consumer_key=consumer_key,
-        consumer_secret=consumer_secret,
-        access_token=access_token,
-        access_token_secret=access_token_secret,
+        consumer_key=CONSUMER_KEY,
+        consumer_secret=CONSUMER_SECRET,
+        access_token=ACCESS_TOKEN,
+        access_token_secret=ACCESS_TOKEN_SECRET,
     )
 
     client.create_tweet(text=str(create_tweet_message()))
