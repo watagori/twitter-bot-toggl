@@ -15,17 +15,24 @@ class Toggl:
 
     def get_workspace_id(self):
         url_workspace_id = f"{self.api_url}/workspaces"
-        response_workspace_id = requests.get(
-            url_workspace_id, headers=self.headers
-        ).json()
+        try:
+            response_workspace_id = requests.get(
+                url_workspace_id, headers=self.headers
+            ).json()
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+        print(f"response_workspace_id: {response_workspace_id}")
         workspace_id = list(map(lambda x: x["id"], response_workspace_id))
         return workspace_id
 
     def get_projects_id(self, workspace_id):
         url_projects_id = f"{self.api_url}/workspaces/{workspace_id}/projects"
-        response_projects_id = requests.get(
-            url_projects_id, headers=self.headers
-        ).json()
+        try:
+            response_projects_id = requests.get(
+                url_projects_id, headers=self.headers
+            ).json()
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
         projects_id = list(map(lambda x: x["id"], response_projects_id))
         return projects_id
 
@@ -34,8 +41,10 @@ class Toggl:
             f"{self.api_url_reports}/summary?workspace_id={workspace_id}&since={from_date}&until="
             f"{to_date}&project_ids={projects_id}&user_agent=api_test"
         )
-
-        response = requests.get(url, headers=self.headers).json()
+        try:
+            response = requests.get(url, headers=self.headers).json()
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
         return response
 
     def get_item_time_in_project(self, projects_data):
