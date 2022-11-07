@@ -1,4 +1,5 @@
 import base64
+from collections import defaultdict
 
 import requests
 
@@ -46,9 +47,12 @@ class Toggl:
             raise SystemExit(e)
         return response
 
-    def get_item_time_in_project(self, projects_data):
+    @staticmethod
+    def get_item_time_in_project(projects_data):
+        item_times = defaultdict(dict)
         item_time = {}
-        if projects_data["total_grand"] is not None:
+        if projects_data["data"]:
+            project_name = projects_data["data"][0]["title"]["project"]
             for item in projects_data["data"][0]["items"]:
                 seconds = item["time"] / 1000
                 seconds = seconds % (24 * 3600)
@@ -61,5 +65,5 @@ class Toggl:
                     minutes,
                     seconds,
                 )
-
-        return item_time
+                item_times[project_name] = item_time
+        return item_times

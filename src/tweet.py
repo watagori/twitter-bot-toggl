@@ -2,14 +2,17 @@ import datetime
 import os
 
 import tweepy
+from dotenv import load_dotenv
 
 from toggl import Toggl
 
-CONSUMER_KEY = os.environ.get("API_KEY")
-CONSUMER_SECRET = os.environ.get("API_KEY_SECRET")
-ACCESS_TOKEN = os.environ.get("ACCESS_TOKEN")
-ACCESS_TOKEN_SECRET = os.environ.get("ACCESS_TOKEN_SECRET")
-TOGGL_API = os.environ.get("TOGGL_API")
+load_dotenv()
+
+CONSUMER_KEY = os.getenv("API_KEY")
+CONSUMER_SECRET = os.getenv("API_KEY_SECRET")
+ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
+ACCESS_TOKEN_SECRET = os.getenv("ACCESS_TOKEN_SECRET")
+TOGGL_API = os.getenv("TOGGL_API")
 
 
 def get_toggl_message():
@@ -43,8 +46,10 @@ def get_yesterday():
 def create_tweet_message():
     toggl_message = get_toggl_message()
     tweet_message = f"{get_yesterday()} Activities:\n"
-    for key, value in toggl_message.items():
-        tweet_message += f"{key} {value}\n"
+    for project_name, value in toggl_message.items():
+        tweet_message += f"[{project_name}]\n"
+        for item_name, time in value.items():
+            tweet_message += f"{item_name}: {time}\n"
     tweet_message += "#WatagoriActivity"
     return tweet_message
 
