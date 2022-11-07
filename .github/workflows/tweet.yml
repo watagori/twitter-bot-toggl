@@ -1,8 +1,9 @@
 name: tweet
 
 on:
-  schedule:
-    - cron: "0 0 * * *"
+  push
+#  schedule:
+#    - cron: "0 0 * * *"
 env:
   API_KEY: ${{ secrets.API_KEY }}
   API_KEY_SECRET: ${{ secrets.API_KEY_SECRET }}
