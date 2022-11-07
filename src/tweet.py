@@ -14,7 +14,7 @@ TOGGL_API = os.environ.get("TOGGL_API")
 
 def get_toggl_message():
     item_time = {}
-    print(f"TOGGL_API: {TOGGL_API}")
+    print(TOGGL_API)
     toggl = Toggl(TOGGL_API)
     workspace_id = toggl.get_workspace_id()
     projects_id = toggl.get_projects_id(workspace_id[0])

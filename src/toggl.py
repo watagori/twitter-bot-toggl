@@ -21,7 +21,6 @@ class Toggl:
             ).json()
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
-        print(f"response_workspace_id: {response_workspace_id}")
         workspace_id = list(map(lambda x: x["id"], response_workspace_id))
         return workspace_id
 
@@ -49,16 +48,18 @@ class Toggl:
 
     def get_item_time_in_project(self, projects_data):
         item_time = {}
-        for item in projects_data["data"][0]["items"]:
-            seconds = item["time"] / 1000
-            seconds = seconds % (24 * 3600)
-            hour = seconds // 3600
-            seconds %= 3600
-            minutes = seconds // 60
-            seconds %= 60
-            item_time[item["title"]["time_entry"]] = "%d:%02d:%02d" % (
-                hour,
-                minutes,
-                seconds,
-            )
+        if projects_data["total_grand"] is not None:
+            for item in projects_data["data"][0]["items"]:
+                seconds = item["time"] / 1000
+                seconds = seconds % (24 * 3600)
+                hour = seconds // 3600
+                seconds %= 3600
+                minutes = seconds // 60
+                seconds %= 60
+                item_time[item["title"]["time_entry"]] = "%d:%02d:%02d" % (
+                    hour,
+                    minutes,
+                    seconds,
+                )
+
         return item_time
