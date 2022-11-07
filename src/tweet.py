@@ -20,12 +20,11 @@ def get_toggl_message():
     toggl = Toggl(TOGGL_API)
     workspace_id = toggl.get_workspace_id()
     projects_id = toggl.get_projects_id(workspace_id[0])
-    today = get_today()
     yesterday = get_yesterday()
 
     for project_id in projects_id:
         project_data = toggl.get_projects_data(
-            yesterday, today, workspace_id[0], project_id
+            yesterday, yesterday, workspace_id[0], project_id
         )
 
         item_time.update(toggl.get_item_time_in_project(project_data))
@@ -45,7 +44,7 @@ def get_yesterday():
 
 def create_tweet_message():
     toggl_message = get_toggl_message()
-    tweet_message = f"{get_yesterday()} Activities:\n"
+    tweet_message = f"{get_yesterday()}\n"
     for project_name, value in toggl_message.items():
         tweet_message += f"[{project_name}]\n"
         for item_name, time in value.items():
@@ -66,4 +65,5 @@ def tweet():
 
 
 if __name__ == "__main__":
-    tweet()
+    # tweet()
+    print(create_tweet_message())
