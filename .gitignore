@@ -2,3 +2,5 @@
 .venv/
 
 .env
+.coverage
+test/data/api/

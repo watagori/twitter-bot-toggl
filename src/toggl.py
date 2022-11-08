@@ -14,7 +14,7 @@ class Toggl:
             + base64.b64encode(bytes(api_token + ":api_token", "utf-8")).decode("utf-8")
         }
 
-    def get_workspace_id(self):
+    def get_workspace_id_data(self) -> list:
         url_workspace_id = f"{self.api_url}/workspaces"
         try:
             response_workspace_id = requests.get(
@@ -22,10 +22,14 @@ class Toggl:
             ).json()
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
-        workspace_id = list(map(lambda x: x["id"], response_workspace_id))
+        return response_workspace_id
+
+    @staticmethod
+    def get_workspace_ids(workspace_id_data: list) -> list:
+        workspace_id = list(map(lambda x: x["id"], workspace_id_data))
         return workspace_id
 
-    def get_projects_id(self, workspace_id):
+    def get_projects_ids_data(self, workspace_id: int) -> list:
         url_projects_id = f"{self.api_url}/workspaces/{workspace_id}/projects"
         try:
             response_projects_id = requests.get(
@@ -33,13 +37,19 @@ class Toggl:
             ).json()
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
-        projects_id = list(map(lambda x: x["id"], response_projects_id))
-        return projects_id
+        return response_projects_id
 
-    def get_projects_data(self, from_date, to_date, workspace_id, projects_id):
+    @staticmethod
+    def get_projects_ids(projects_id_data: list) -> list:
+        projects_ids = list(map(lambda x: x["id"], projects_id_data))
+        return projects_ids
+
+    def get_projects_data(
+        self, from_date: str, to_date: str, workspace_id: int, projects_id: int
+    ) -> dict:
         url = (
             f"{self.api_url_reports}/summary?workspace_id={workspace_id}&since={from_date}&until="
-            f"{to_date}&project_ids={projects_id}&user_agent=api_test"
+            f"{to_date}&project_ids={projects_id}&user_agent=WatagoriBot"
         )
         try:
             response = requests.get(url, headers=self.headers).json()
@@ -48,7 +58,7 @@ class Toggl:
         return response
 
     @staticmethod
-    def get_item_time_in_project(projects_data):
+    def get_item_time_in_project(projects_data: dict) -> dict:
         item_times = defaultdict(dict)
         item_time = {}
         if projects_data["data"]:
