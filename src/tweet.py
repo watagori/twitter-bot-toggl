@@ -65,5 +65,4 @@ def tweet():
 
 
 if __name__ == "__main__":
-    # tweet()
-    print(create_tweet_message())
+    tweet()
