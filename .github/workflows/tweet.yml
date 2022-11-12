@@ -2,7 +2,7 @@ name: tweet
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 23 * * *"
   workflow_dispatch:
 env:
   API_KEY: ${{ secrets.API_KEY }}
@@ -14,15 +14,12 @@ jobs:
   tweet:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - run: |
-          echo "ths is env=${{ env.env_1 }}"
       - uses: actions/setup-python@v4
         with:
           python-version: "3.10"
       - run: curl -sSL https://install.python-poetry.org | python -
       - run: export PATH="$PATH:$HOME/.poetry/bin"
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: .venv
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
