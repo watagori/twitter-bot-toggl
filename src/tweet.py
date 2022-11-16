@@ -4,7 +4,7 @@ import os
 import tweepy
 from dotenv import load_dotenv
 
-from src.toggl import Toggl
+from toggl import Toggl
 
 load_dotenv()
 
