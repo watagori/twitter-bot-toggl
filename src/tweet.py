@@ -3,9 +3,8 @@ import os
 
 import tweepy
 from dotenv import load_dotenv
-from PIL import Image, ImageDraw, ImageFont
 
-from toggl import Toggl
+from src.toggl import Toggl
 
 load_dotenv()
 
@@ -42,22 +41,11 @@ def create_tweet_message(message_data: dict) -> str:
     return tweet_message
 
 
-def words_count(message: str) -> bool:
+def is_words_over(message: str) -> bool:
     if len(message) <= 280:
         return True
     else:
         return False
-
-
-def create_tweet(message: str):
-    if words_count(message):
-        return message
-    else:
-        im = Image.new("RGB", (256, 410), (256, 256, 256))
-        draw = ImageDraw.Draw(im)
-        font = ImageFont.truetype("Arial", 14)
-        draw.multiline_text((10, 10), message, fill=(0, 0, 0), font=font)
-        im.save(f"data/tweet_{get_yesterday()}.png")
 
 
 def tweet():
@@ -71,12 +59,12 @@ def tweet():
     client.create_tweet(text=str(create_tweet_message(get_toggl_message())))
 
 
-def get_today():
+def get_today() -> str:
     today = datetime.datetime.today()
     return today.strftime("%Y-%m-%d")
 
 
-def get_yesterday():
+def get_yesterday() -> str:
     today = datetime.datetime.today()
     yesterday = today - datetime.timedelta(days=1)
     return yesterday.strftime("%Y-%m-%d")

@@ -1,11 +1,9 @@
 import os
 
 from dotenv import load_dotenv
+from freezegun import freeze_time
 
 from src import tweet
-
-# from freezegun import freeze_time
-
 
 load_dotenv()
 
@@ -33,6 +31,7 @@ class TestTweet:
     #     }
     #     assert data == test_data
 
+    @freeze_time("2022-11-08")
     def test_create_message(self):
         test_message = {
             "Life": {"Walking/Running": "0:44:53"},
@@ -44,12 +43,12 @@ class TestTweet:
             == "2022-11-08\n[Life]\nWalking/Running: 0:44:53\n[NII]\nResearch: 4:54:54\n#WatagoriActivity"
         )
 
-    def test_words_count_under_280(self):
+    def test_is_words_over_under_280(self):
         test_message = "2022-11-08\n[Life]\nWalking/Running: 0:44:53\n[NII]\nResearch: 4:54:54\n#WatagoriActivity"
-        counter = tweet.words_count(test_message)
+        counter = tweet.is_words_over(test_message)
         assert counter is True
 
-    def test_words_count_over_280(self):
+    def test_is_words_over_over_280(self):
         test_message = (
             "2022-11-08\n[Life]\nWalking/Running: 0:44:53\n"
             "[NII]\nResearch: 4:54:54\n2022-11-08\n[Life]\n"
@@ -59,13 +58,8 @@ class TestTweet:
             "[NII]\nResearch: 4:54:54\n#WatagoriActivity"
         )
 
-        counter = tweet.words_count(test_message)
+        counter = tweet.is_words_over(test_message)
         assert counter is False
-
-    def test_create_tweet_under_280(self):
-        test_message = "2022-11-08\n[Life]\nWalking/Running: 0:44:53\n[NII]\nResearch: 4:54:54\n#WatagoriActivity"
-        message = tweet.create_tweet(test_message)
-        assert message == test_message
 
     # def test_create_tweet_over_280(self):
     #     test_message = (
